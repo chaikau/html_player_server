@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Simple Player{% endblock %}
+{% block page_content %}
+<div class="page-header">
+	<h1>Welcome to Simple Player</h1>
+</div>
+<div>
+	<h2>The files are here:</h2>
+	<table align="center" border="1" cellpadding="10">
+		<tr align=left><th>Type</th><th>File</th></tr>
+
+		{% for filename in files %}
+			<tr align=left><td>{{ filename.split('.')[-1] }}</td><td><a href="{{ url_for('play', videofile=filename.strip('\n').encode('utf-8') ) }}">{{ filename }}</a></td></tr>
+		{% endfor %}
+	</table>
+</div>
+{% endblock %}
+
