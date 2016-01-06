@@ -3,9 +3,6 @@
 {% block title %}404 Not Found{% endblock %}
 {% block page_content %}
 <h1>404 Not Found</h1>
-{% if error == "nofile" %}
-	_(:з」∠)_ 文件不存在！<a href="/">回到首页</a>
-{% elif error == "emptydir" %}
-	_(:з」∠)_ 目录里没文件！
-{% endif %}
+<br>
+{{ error }}
 {% endblock %}
