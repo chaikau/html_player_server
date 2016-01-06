@@ -6,23 +6,29 @@ sys.setdefaultencoding('utf-8')
 
 app = Flask(__name__)
 
+video_set = ( 'WEBM', 'MP4', 'OGG' )
+
 @app.route('/')
 def index():
     files=os.listdir('static/video')
-    if files: # files not empty
-        return render_template('index.html', files=files)
-    else:
-        return render_template('404.html', error="emptydir"), 404
+    video_exist = False
+    for video_file in files:
+        for suffix in video_set :
+            if suffix in video_file.upper(): # Check file in list have a suffix of webm, mp4 or ogg. 
+                video_exist = True
+                return render_template('index.html', files=files)
+    return render_template('404.html', error="Video directory is empty!"), 404
 
-@app.route('/<videofile>')
-def play(videofile):
+@app.route('/<video_file>')
+def play(video_file):
     user_agent=request.headers.get('User-Agent')
-    if os.path.exists('static/video/' + videofile):
-        return render_template('player.html', user_agent=user_agent, videofile=videofile)
-    else :
-        return render_template('404.html', error="nofile"), 404
+    if os.path.exists('static/video/' + video_file):
+        for suffix in video_set :
+            if suffix in video_file.upper():
+                return render_template('player.html', user_agent=user_agent, video_file=video_file)
+    return render_template('404.html', error="Video file %s doesn't exist!" % video_file), 404
 
 if __name__ == '__main__':
     #app.run(port=8000)
-    app.run(host='0.0.0.0',port=8000 )
+    app.run(debug=True, host='0.0.0.0',port=8000 )
 
