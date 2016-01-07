@@ -14,7 +14,7 @@ def index():
     video_exist = False
     for video_file in files:
         for suffix in legal_suffix :
-            if suffix in video_file.splist('.')[-1].upper(): # Check file in list have a suffix of webm, mp4 or ogg. 
+            if suffix in video_file.split('.')[-1].upper(): # Check file in list have a suffix of webm, mp4 or ogg. 
                 video_exist = True
                 return render_template('index.html', files=files)
     return render_template('404.html', error="Video directory is empty!"), 404
@@ -24,7 +24,7 @@ def play(video_file):
     user_agent=request.headers.get('User-Agent')
     if os.path.exists('static/video/' + video_file):
         for suffix in legal_suffix :
-            if suffix in video_file.splist('.')[-1].upper():
+            if suffix in video_file.split('.')[-1].upper():
                 return render_template('player.html', user_agent=user_agent, video_file=video_file)
     return render_template('404.html', error="Video file %s doesn't exist!" % video_file), 404
 
